@@ -12,9 +12,16 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: "Faust's Sandwich Shop App",
       home: Scaffold(
-        appBar: AppBar(title: const Text('Sandwich Counter')),
+        appBar: AppBar(
+          title: const Text('Faust\'s Hoagies'),
+          backgroundColor: Colors.deepPurple,
+          ),
         body: const Center(
           child: OrderItemDisplay(10, '6 inch'),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: const Icon(Icons.add_shopping_cart)
         ),
       ),
     );
