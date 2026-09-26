@@ -15,13 +15,29 @@ class App extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Faust\'s Hoagies'),
           backgroundColor: Colors.deepPurple,
-          ),
-        body: const Center(
-          child: OrderItemDisplay(10, '6 inch'),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            OrderItemDisplay(10, "six inch"),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () => print("Add button pressed"),
+                  child: const Text('Add'),
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: () => print("Remove button pressed"),
+                  child: const Text("Remove"),
+                ),
+              ],
+            ),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
-          child: const Icon(Icons.add_shopping_cart)
+          child: const Icon(Icons.add_shopping_cart),
         ),
       ),
     );
