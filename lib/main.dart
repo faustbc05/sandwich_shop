@@ -10,36 +10,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Faust's Sandwich Shop App",
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Faust\'s Hoagies'),
-          backgroundColor: Colors.deepPurple,
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            OrderItemDisplay(10, "six inch"),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () => print("Add button pressed"),
-                  child: const Text('Add'),
-                ),
-                const SizedBox(width: 16),
-                ElevatedButton(
-                  onPressed: () => print("Remove button pressed"),
-                  child: const Text("Remove"),
-                ),
-              ],
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.add_shopping_cart),
-        ),
-      ),
+      title: "Faust's sandwich shop",
+      home: OrderScreen(maxQuantity: 10)
     );
   }
 }
@@ -60,7 +32,30 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Sandwich Counter')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            OrderItemDisplay(_quantity, 'Footlong'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () => print('Add button pressed!'),
+                  child: const Text('Add'),
+                ),
+                ElevatedButton(
+                  onPressed: () => print('Remove button pressed!'),
+                  child: const Text('Remove'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
