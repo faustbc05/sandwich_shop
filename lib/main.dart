@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandwich_shop/screens/menu_screen.dart';
 
 void main() {
   runApp(const App());
@@ -9,10 +10,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Faust's sandwich shop",
-      home: OrderScreen(maxQuantity: 10)
-    );
+    return MaterialApp(title: "Faust's sandwich shop", home: MenuScreen());
   }
 }
 
