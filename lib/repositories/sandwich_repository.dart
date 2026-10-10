@@ -15,7 +15,7 @@ class SandwichRepository {
         name: 'Six-Inch Sub',
         description: 'a sandwich that measures to the length of 6 inches',
         price: 4.50,
-        imagePath: 'assets/images/six_inch.jpg',
+        imagePath: 'assets/images/six-inch.jpg',
       ),
     ];
   }
