@@ -1,4 +1,4 @@
-import 'package:flutter_app/models/sandwich.dart';
+import 'package:sandwich_shop/models/sandwich.dart';
 
 class SandwichRepository {
   List<Sandwich> getSandwiches() {

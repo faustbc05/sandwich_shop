@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/sandwich.dart';
+import 'package:sandwich_shop/models/sandwich.dart';
 
 class SandwichCard extends StatelessWidget {
   final Sandwich sandwich;
