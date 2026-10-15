@@ -60,7 +60,7 @@ void main() {
 
         expect(find.byType(OrderScreen), findsOneWidget);
         expect(find.text('Order Footlong Sub'), findsOneWidget);
-        expect(find.text('0 Footlong Sub Sandwich(es): '), findsOneWidget);
+        expect(find.text('0 Footlong Sub sandwich(es): '), findsOneWidget);
       },
     );
 
@@ -74,16 +74,61 @@ void main() {
 
         expect(find.byType(OrderScreen), findsOneWidget);
         expect(find.text('Order Footlong Sub'), findsOneWidget);
-        expect(find.text('0 Footlong Sub Sandwich(es): '), findsOneWidget);
+        expect(find.text('0 Footlong Sub sandwich(es): '), findsOneWidget);
 
         await tester.tap(find.text('Add'));
         await tester.pump();
-        expect(find.text('1 Footlong Sub Sandwich(es): 🥪'), findsOneWidget);
+        expect(find.text('1 Footlong Sub sandwich(es): 🥪'), findsOneWidget);
 
         await tester.tap(find.text('Remove'));
         await tester.pump();
-        expect(find.text('0 Footlong Sub Sandwich(es): '), findsOneWidget);
+        expect(find.text('0 Footlong Sub sandwich(es): '), findsOneWidget);
       },
     );
+
+    testWidgets('OrderScreen quantity does not drop below zero', (
+      WidgetTester tester,
+    ) async {
+      const sandwich = Sandwich(
+        id: 'test',
+        name: 'Test Sub',
+        description: 'Test Description',
+        price: 99.99,
+        imagePath: 'assets/images/footlong.jpg',
+      );
+
+      await tester.pumpWidget(
+        const MaterialApp(home: OrderScreen(sandwich: sandwich)),
+      );
+
+      await tester.tap(find.text('Remove'));
+      await tester.pump();
+      expect(find.text('0 Test Sub sandwich(es): '), findsOneWidget);
+    });
+
+    testWidgets('orderScreen quantity does not exceed maxQuantity', (
+      WidgetTester tester,
+    ) async {
+      const sandwich = Sandwich(
+        id: 'test',
+        name: 'Test Sub',
+        description: 'Test Description',
+        price: 99.99,
+        imagePath: 'assets/images/footlong.jpg',
+      );
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: OrderScreen(sandwich: sandwich, maxQuantity: 3),
+        ),
+      );
+
+      for (int i = 0; i < 5; i++) {
+        await tester.tap(find.text('Add'));
+        await tester.pump();
+      }
+
+      expect(find.text('3 Test Sub sandwich(es): 🥪🥪🥪'), findsOneWidget);
+    });
   });
 }
