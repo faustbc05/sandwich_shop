@@ -6,7 +6,7 @@ class SandwichRepository {
       Sandwich(
         id: 'footlong',
         name: 'Footlong Sub',
-        description: 'A sandwich that is 1 foot long',
+        description: 'a sandwich that is 1 foot long',
         price: 5.99,
         imagePath: 'assets/images/footlong.jpg',
       ),
@@ -18,5 +18,14 @@ class SandwichRepository {
         imagePath: 'assets/images/six-inch.jpg',
       ),
     ];
+  }
+
+  Sandwich? getSandwichById(String id) {
+    for (final sandwich in getSandwiches()) {
+      if (sandwich.id == id) {
+        return sandwich;
+      }
+    }
+    return null;
   }
 }
