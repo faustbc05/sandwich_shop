@@ -8,7 +8,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: PrimaryButton(label: 'order', onPressed: () {}),
+            body: PrimaryButton(label: 'Order', onPressed: () {}),
           ),
         ),
       );
