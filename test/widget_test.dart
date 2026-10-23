@@ -36,7 +36,7 @@ void main() {
     testWidgets('App displays MenuScreen as home', (WidgetTester tester) async {
       await tester.pumpWidget(const App());
       expect(find.byType(MenuScreen), findsOneWidget);
-      expect(find.text('Sandwich Menu'), findsOneWidget);
+      expect(find.byIcon(Icons.shopping_basket), findsOneWidget);
     });
 
     testWidgets('Displays sandwich cards with names and prices', (
