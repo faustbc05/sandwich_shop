@@ -16,6 +16,7 @@ class BasketScreen extends StatefulWidget {
 
 class _BasketScreenState extends State<BasketScreen> {
   String _confirmationMessage = '';
+
   Widget _buildEmptyState() {
     return const Center(
       child: Padding(
@@ -24,6 +25,37 @@ class _BasketScreenState extends State<BasketScreen> {
           'Your Basket is Empty',
           style: TextStyle(fontSize: 16, color: Colors.grey),
         ),
+      ),
+    );
+  }
+
+  Widget _buildLineItem(CartRepository cart, CartItem item, int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${item.quantity} x ${item.sandwich.name}',
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 4),
+                Text('£${item.lineTotal.toStringAsFixed(2)}'),
+              ],
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                cart.removeItem(index);
+              });
+            },
+            icon: const Icon(Icons.delete_outline, color: Colors.red),
+          ),
+        ],
       ),
     );
   }
