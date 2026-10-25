@@ -60,10 +60,95 @@ class _BasketScreenState extends State<BasketScreen> {
     );
   }
 
+  Widget _buildTotalRow(String label, String value, {bool emphasise = false}) {
+    final TextStyle style;
+    if (emphasise) {
+      style = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
+    } else {
+      style = const TextStyle(color: shopText);
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: style),
+          Text(value, style: style),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBasketList(CartRepository cart, List<CartItem> items) {
+    final List<Widget> children = [];
+
+    children.add(const Text('Your basket', style: shopSectionTitleStyle));
+    children.add(const SizedBox(height: 16));
+
+    for (int index = 0; index < items.length; index++) {
+      final CartItem item = items[index];
+      children.add(_buildLineItem(cart, item, index));
+    }
+    
+    children.add(const SizedBox(height: 24));
+    children.add(
+      _buildTotalRow(
+        'Items subtotal',
+        '£${cart.getSubtotal().toStringAsFixed(2)}',
+      ),
+    );
+    children.add(
+      _buildTotalRow(
+        'Delivery',
+        '£${cart.getDeliveryFee().toStringAsFixed(2)}',
+      ),
+    );
+    children.add(
+      _buildTotalRow(
+        'Total to pay',
+        '£${cart.getTotalDue().toStringAsFixed(2)}',
+        emphasise: true,
+      ),
+    );
+    children.add(const SizedBox(height: 24));
+
+    children.add(
+      SizedBox(
+        width: double.infinity,
+        child: PrimaryButton(
+          label: 'Checkout',
+          onPressed: () {
+            setState(() {
+              cart.clear();
+              _confirmationMessage = 'Thanks, your order is on its way';
+            });
+          },
+        ),
+      ),
+    );
+
+    if (_confirmationMessage.isNotEmpty) {
+      children.add(const SizedBox(height: 12));
+      children.add(
+        Text(
+          _confirmationMessage,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: children,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final CartRepository cart = CartRepository.instance;
     final List<CartItem> items = cart.getItems();
+
     final Widget content;
     if (items.isEmpty) {
       if (_confirmationMessage.isNotEmpty) {
@@ -74,7 +159,7 @@ class _BasketScreenState extends State<BasketScreen> {
             const SizedBox(height: 12),
             Text(
               _confirmationMessage,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         );
@@ -82,7 +167,7 @@ class _BasketScreenState extends State<BasketScreen> {
         content = _buildEmptyState();
       }
     } else {
-      content = const Text('Basket list placeholder');
+      content = _buildBasketList(cart, items);
     }
 
     return Scaffold(
