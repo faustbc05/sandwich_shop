@@ -16,6 +16,17 @@ class BasketScreen extends StatefulWidget {
 
 class _BasketScreenState extends State<BasketScreen> {
   String _confirmationMessage = '';
+  Widget _buildEmptyState() {
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 32.0),
+        child: Text(
+          'Your Basket is Empty',
+          style: TextStyle(fontSize: 16, color: Colors.grey),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +36,18 @@ class _BasketScreenState extends State<BasketScreen> {
     if (items.isEmpty) {
       if (_confirmationMessage.isNotEmpty) {
         content = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Empty basket placeholder'),
-            Text(_confirmationMessage),
+            _buildEmptyState(),
+            const SizedBox(height: 12),
+            Text(
+              _confirmationMessage,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ],
         );
       } else {
-        content = const Text('Empty basket placeholder');
+        content = _buildEmptyState();
       }
     } else {
       content = const Text('Basket list placeholder');
