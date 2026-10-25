@@ -103,7 +103,7 @@ class _OrderScreenState extends State<OrderScreen> {
       });
     } else {
       setState(() {
-        _confirmationMessage = 'Please select at least 1 sandwich';
+        _confirmationMessage = 'please select at least 1 sandwich';
       });
     }
   }

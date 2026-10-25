@@ -22,7 +22,7 @@ class _BasketScreenState extends State<BasketScreen> {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 32.0),
         child: Text(
-          'Your Basket is Empty',
+          'Your basket is empty',
           style: TextStyle(fontSize: 16, color: Colors.grey),
         ),
       ),
