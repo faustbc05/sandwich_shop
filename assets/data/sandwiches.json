@@ -1,0 +1,16 @@
+[
+    {
+        "description": "A freshly baked 12-inch sandwich filled with savoury ingredients.",
+        "id": "footlong",
+        "imagePath": "assets/images/footlong.jpg",
+        "name": "Footlong Sub",
+        "price": 7.50
+    },
+    {
+        "description": "A light 6-inch sandwich made with your favourite toppings.",
+        "id": "six-inch",
+        "imagePath": "assets/images/six-inch.jpg",
+        "name": "Six-Inch Sub",
+        "price": 4.50
+    }
+]
