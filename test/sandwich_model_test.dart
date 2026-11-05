@@ -31,5 +31,35 @@ void main() {
         expect(sandwich.formattedPrice, '£3.90');
       },
     );
+
+    test('JSON conversion preserves every sandwich field', () {
+      final Map<String, dynamic> data = <String, dynamic>{
+        'id': 'veggie',
+        'name': 'Veggie Sub',
+        'description': 'Fresh vegetables',
+        'price': 5.50,
+        'imagePath': 'assets/images/six-inch.jpg',
+      };
+
+      final Sandwich sandwich = Sandwich.fromJson(data);
+      expect(sandwich.id, 'veggie');
+      expect(sandwich.name, 'Veggie Sub');
+      expect(sandwich.description, 'Fresh vegetables.');
+      expect(sandwich.price, 5.50);
+      expect(sandwich.imagePath, 'assets/images/six-inch.jpg');
+    });
+
+    test('fromJson accepts a whole-number price', () {
+      final Map<String, dynamic> data = <String, dynamic>{
+        'id': 'test',
+        'name': 'Test Sub',
+        'description': 'Test Sandwich',
+        'price': 5,
+        'imagePatch': 'assets/images/footlong.jpg',
+      };
+      final Sandwich sandwich = Sandwich.fromJson(data);
+      expect(sandwich.price, 5.0);
+      expect(sandwich.price, isA<double>());
+    });
   });
 }

@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class Sandwich {
   final String id;
   final String name;
