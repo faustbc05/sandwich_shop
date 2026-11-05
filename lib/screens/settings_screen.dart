@@ -26,12 +26,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _receiveNewsletter = false;
   String _confirmationMessage = '';
 
+  Future<void> _loadSettings() async {
+    final SharedPreferencesAsync prefs = SharedPreferencesAsync();
+    final String? savedName = await prefs.getString(prefName);
+    final String? savedAddress = await prefs.getString(prefAddress);
+    final String? savedEmail = await prefs.getString(prefEmail);
+    final bool? savedNewsletter = await prefs.getBool(prefNewsletter);
+    String name = '';
+    if (savedName != null) {
+      name = savedName;
+    }
+    String address = '';
+    if (savedAddress != null) {
+      address = savedAddress;
+    }
+    String email = '';
+    if (savedEmail != null) {
+      email = savedEmail;
+    }
+    bool newsletter = false;
+    if (savedNewsletter != null) {
+      newsletter = savedNewsletter;
+    }
+
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _nameController.text = name;
+      _addressController.text = address;
+      _emailController.text = email;
+      _receiveNewsletter = newsletter;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _nameController = TextEditingController();
     _addressController = TextEditingController();
     _emailController = TextEditingController();
+    _loadSettings();
   }
 
   @override
@@ -62,85 +97,80 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(appTitle, style: shopHeaderStyle),
-          actions: const [BasketButton()],
-        ),
-        body: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      appBar: AppBar(
+        title: const Text(appTitle, style: shopHeaderStyle),
+        actions: const [BasketButton()],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Customer Profile',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Full name',
+                hintText: 'Enter your name',
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _addressController,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Delivery address',
+                hintText: 'Enter delivery address',
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Email address',
+                hintText: 'Enter your email',
+              ),
+            ),
+            const SizedBox(height: 16),
+            Row(
               children: [
-                const Text(
-                  'Customer Profile',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold
-                  ),
+                const Expanded(child: Text('Receive newsletter and offers')),
+                Switch(
+                  value: _receiveNewsletter,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _receiveNewsletter = value;
+                    });
+                  },
                 ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Full name',
-                    hintText: 'Enter your name',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _addressController,
-                  maxLines: 3,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Delivery address',
-                    hintText: 'Enter delivery address',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email address',
-                    hintText: 'Enter your email',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Text('Receive newsletter and offers'),
-                    ),
-                    Switch(
-                      value: _receiveNewsletter,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _receiveNewsletter = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: PrimaryButton(
-                    label: 'Save Settings',
-                    onPressed: _saveSettings,
-                  ),
-                ),
-                if (_confirmationMessage.isNotEmpty) ...[
-                  const SizedBox(height: 12),
-                  Text(
-                    _confirmationMessage,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ]
-            )
-        )
+              ],
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: PrimaryButton(
+                label: 'Save Settings',
+                onPressed: _saveSettings,
+              ),
+            ),
+            if (_confirmationMessage.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Text(
+                _confirmationMessage,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }
