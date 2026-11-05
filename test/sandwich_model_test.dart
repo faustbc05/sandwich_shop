@@ -44,7 +44,7 @@ void main() {
       final Sandwich sandwich = Sandwich.fromJson(data);
       expect(sandwich.id, 'veggie');
       expect(sandwich.name, 'Veggie Sub');
-      expect(sandwich.description, 'Fresh vegetables.');
+      expect(sandwich.description, 'Fresh vegetables');
       expect(sandwich.price, 5.50);
       expect(sandwich.imagePath, 'assets/images/six-inch.jpg');
     });
@@ -55,7 +55,7 @@ void main() {
         'name': 'Test Sub',
         'description': 'Test Sandwich',
         'price': 5,
-        'imagePatch': 'assets/images/footlong.jpg',
+        'imagePath': 'assets/images/footlong.jpg',
       };
       final Sandwich sandwich = Sandwich.fromJson(data);
       expect(sandwich.price, 5.0);

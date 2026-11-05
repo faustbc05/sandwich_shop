@@ -51,12 +51,17 @@ void main() {
     });
     test('loadSandwichesFromAsset reads the bundled JSON menu', () async {
       final SandwichRepository repository = SandwichRepository();
-      final List<Sandwich> sandwiches =
-          await repository.loadSandwichesFromAsset();
+      final List<Sandwich> sandwiches = await repository
+          .loadSandwichesFromAsset();
 
-      expect(sandwiches.length, 2);
+      expect(sandwiches.length, 4);
       expect(sandwiches[0].id, 'footlong');
       expect(sandwiches[1].id, 'six-inch');
+      expect(sandwiches[2].id, 'nachos');
+      expect(sandwiches[2].price, 6.99);
+      expect(sandwiches[2].imagePath, 'assets/images/nachos.jpg');
+      expect(sandwiches[3].id, 'nonexistent');
+      expect(sandwiches[3].price, 2.99);
       expect(repository.getSandwiches(), sandwiches);
     });
   });

@@ -4,12 +4,17 @@ import 'package:sandwich_shop/screens/basket_screen.dart';
 import 'package:sandwich_shop/screens/menu_screen.dart';
 import 'package:sandwich_shop/widgets/sandwich_card.dart';
 import 'package:sandwich_shop/screens/settings_screen.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  setUp(() {
+    rootBundle.clear();
+  });
   testWidgets(
     'MenuScreen shows sandwich list, settings button and a basket button',
     (WidgetTester tester) async {
       await tester.pumpWidget(const MaterialApp(home: MenuScreen()));
+      await tester.pumpAndSettle();
 
       expect(find.byType(SandwichCard), findsWidgets);
       expect(find.byIcon(Icons.person_outline), findsOneWidget);
@@ -33,6 +38,7 @@ void main() {
         },
       ),
     );
+    await tester.pumpAndSettle();
 
     await tester.tap(find.byIcon(Icons.shopping_basket));
     await tester.pumpAndSettle();
@@ -54,6 +60,7 @@ void main() {
         },
       ),
     );
+    await tester.pumpAndSettle();
 
     await tester.tap(find.byIcon(Icons.person_outline));
     await tester.pumpAndSettle();

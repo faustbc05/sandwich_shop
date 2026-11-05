@@ -3,7 +3,7 @@
     "id": "footlong",
     "name": "Footlong Sub",
     "description": "A freshly baked 12-inch sandwich filled with savoury ingredients.",
-    "price": 7.50,
+    "price": 5.99,
     "imagePath": "assets/images/footlong.jpg"
   },
   {
@@ -24,7 +24,7 @@
     "id": "nonexistent",
     "name": "Nonexistent Sandwich",
     "description": "This item is not on our real menu and its image is missing.",
-    "price": "free",
+    "price": 2.99,
     "imagePath": "assets/images/nonexistent.jpeg"
   }
 ]
