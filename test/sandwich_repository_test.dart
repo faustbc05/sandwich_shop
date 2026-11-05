@@ -3,6 +3,7 @@ import 'package:sandwich_shop/models/sandwich.dart';
 import 'package:sandwich_shop/repositories/sandwich_repository.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   group('SandwichRepository unit tests', () {
     test('getSandwiches() returns two sandwiches', () {
       final SandwichRepository repository = SandwichRepository();
@@ -47,6 +48,16 @@ void main() {
       final Sandwich? sandwich = repository.getSandwichById('non-existent');
 
       expect(sandwich, isNull);
+    });
+    test('loadSandwichesFromAsset reads the bundled JSON menu', () async {
+      final SandwichRepository repository = SandwichRepository();
+      final List<Sandwich> sandwiches =
+          await repository.loadSandwichesFromAsset();
+
+      expect(sandwiches.length, 2);
+      expect(sandwiches[0].id, 'footlong');
+      expect(sandwiches[1].id, 'six-inch');
+      expect(repository.getSandwiches(), sandwiches);
     });
   });
 }
