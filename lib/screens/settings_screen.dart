@@ -77,10 +77,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.dispose();
   }
 
-  void _saveSettings() {
+  Future<void> _saveSettings() async {
     final String name = _nameController.text.trim();
     final String address = _addressController.text.trim();
     final String email = _emailController.text.trim();
+    final SharedPreferencesAsync prefs = SharedPreferencesAsync();
+    await prefs.setString(prefName, name);
+    await prefs.setString(prefAddress, address);
+    await prefs.setString(prefEmail, email);
+    await prefs.setBool(prefNewsletter, _receiveNewsletter);
 
     final UserSettings settings = UserSettings(
       name: name,
@@ -88,7 +93,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       email: email,
       receiveNewsletter: _receiveNewsletter,
     );
-
+    
+    if (!mounted) {
+      return;
+    }
     setState(() {
       _confirmationMessage = 'Settings saved for ${settings.name}';
     });
