@@ -5,10 +5,14 @@ import 'package:sandwich_shop/screens/menu_screen.dart';
 import 'package:sandwich_shop/widgets/sandwich_card.dart';
 import 'package:sandwich_shop/screens/settings_screen.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
+import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
 
 void main() {
   setUp(() {
     rootBundle.clear();
+    SharedPreferencesAsyncPlatform.instance =
+        InMemorySharedPreferencesAsync.empty();
   });
   testWidgets(
     'MenuScreen shows sandwich list, settings button and a basket button',
@@ -46,7 +50,9 @@ void main() {
     expect(find.byType(BasketScreen), findsOneWidget);
   });
 
-  testWidgets('Tapping the settings button navigates to SettingsScreen', (WidgetTester tester) async {
+  testWidgets('Tapping the settings button navigates to SettingsScreen', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(
       MaterialApp(
         initialRoute: '/',
