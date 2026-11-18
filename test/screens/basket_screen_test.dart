@@ -56,11 +56,11 @@ void main() {
       await tester.pumpAndSettle();
     });
     await tester.pumpAndSettle();
-    
+
     final List<OrderRecord>? orders = await tester.runAsync(() async {
       return await SandwichDatabase.instance.getAllOrders();
     });
-    
+
     expect(orders, isNotNull);
     if (orders != null) {
       expect(orders.length, 1);
@@ -105,10 +105,7 @@ void main() {
   testWidgets(
     'BasketScreen renders items and removes item when delete pressed',
     (WidgetTester tester) async {
-      const CartItem item = CartItem(
-        sandwich: testSandwich,
-        quantity: 2,
-      );
+      const CartItem item = CartItem(sandwich: testSandwich, quantity: 2);
       CartRepository.instance.addItem(item);
 
       await tester.pumpWidget(const MaterialApp(home: BasketScreen()));
@@ -125,4 +122,3 @@ void main() {
     },
   );
 }
-

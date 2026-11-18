@@ -38,7 +38,7 @@ class Sandwich {
       'name': name,
       'description': description,
       'price': price,
-      'imagePath': imagePath,      
+      'imagePath': imagePath,
     };
     return data;
   }

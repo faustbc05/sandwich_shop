@@ -4,10 +4,33 @@ import 'package:sandwich_shop/main.dart';
 import 'package:sandwich_shop/screens/menu_screen.dart';
 import 'package:sandwich_shop/screens/order_screen.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 void main() {
   setUp(() {
     rootBundle.clear();
+  });
+  test('Android is supported', () {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    expect(isSupportedPlatform(), isTrue);
+    debugDefaultTargetPlatformOverride = null;
+  });
+  test('Other platforms are not supported', () {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    expect(isSupportedPlatform(), isFalse);
+    debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
+    expect(isSupportedPlatform(), isFalse);
+    debugDefaultTargetPlatformOverride = TargetPlatform.windows;
+    expect(isSupportedPlatform(), isFalse);
+    debugDefaultTargetPlatformOverride = TargetPlatform.linux;
+    expect(isSupportedPlatform(), isFalse);
+    debugDefaultTargetPlatformOverride = null;
+  });
+  testWidgets('The unsupported platform screen explains what to do', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const UnsupportedPlatformApp());
+    expect(find.textContaining('Android emulator'), findsOneWidget);
   });
   group('App smoke tests', () {
     testWidgets('App displays MenuScreen as home', (WidgetTester tester) async {

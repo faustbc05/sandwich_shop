@@ -35,8 +35,8 @@ void main() {
     );
     expect(id, greaterThan(0));
 
-    final List<OrderRecord> orders =
-        await SandwichDatabase.instance.getAllOrders();
+    final List<OrderRecord> orders = await SandwichDatabase.instance
+        .getAllOrders();
     expect(orders.length, 1);
     expect(orders[0].id, id);
     expect(orders[0].summary, '1 x Footlong Sub');
@@ -63,8 +63,8 @@ void main() {
       buildRecord(1002, 'Second', 7.0),
     );
 
-    final List<OrderRecord> orders =
-        await SandwichDatabase.instance.getAllOrders();
+    final List<OrderRecord> orders = await SandwichDatabase.instance
+        .getAllOrders();
     expect(orders[0].orderNumber, 1003);
     expect(orders[1].orderNumber, 1002);
     expect(orders[2].orderNumber, 1001);

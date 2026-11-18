@@ -93,7 +93,7 @@ void main() {
 
     expect(find.text('3 Footlong Sub sandwich(es): 🥪🥪🥪'), findsOneWidget);
   });
-    testWidgets('OrderScreen quantity does not drop below zero', (
+  testWidgets('OrderScreen quantity does not drop below zero', (
     WidgetTester tester,
   ) async {
     const sandwich = Sandwich(
@@ -125,9 +125,7 @@ void main() {
     );
 
     await tester.pumpWidget(
-      const MaterialApp(
-        home: OrderScreen(sandwich: sandwich, maxQuantity: 3),
-      ),
+      const MaterialApp(home: OrderScreen(sandwich: sandwich, maxQuantity: 3)),
     );
 
     for (int i = 0; i < 5; i++) {

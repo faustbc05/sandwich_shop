@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sandwich_shop/constants.dart';
+import 'package:sandwich_shop/database/sandwich_db.dart';
 import 'package:sandwich_shop/models/cart_item.dart';
+import 'package:sandwich_shop/models/order_record.dart';
 import 'package:sandwich_shop/repositories/cart_repository.dart';
 import 'package:sandwich_shop/widgets/basket_button.dart';
 import 'package:sandwich_shop/widgets/primary_button.dart';
@@ -91,7 +93,7 @@ class _BasketScreenState extends State<BasketScreen> {
       final CartItem item = items[index];
       children.add(_buildLineItem(cart, item, index));
     }
-    
+
     children.add(const SizedBox(height: 24));
     children.add(
       _buildTotalRow(
@@ -119,12 +121,7 @@ class _BasketScreenState extends State<BasketScreen> {
         width: double.infinity,
         child: PrimaryButton(
           label: 'Checkout',
-          onPressed: () {
-            setState(() {
-              cart.clear();
-              _confirmationMessage = 'Thanks, your order is on its way';
-            });
-          },
+          onPressed: _checkout,
         ),
       ),
     );
@@ -143,6 +140,50 @@ class _BasketScreenState extends State<BasketScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: children,
     );
+  }
+
+  Future<void> _checkout() async {
+    final CartRepository cart = CartRepository.instance;
+    final List<CartItem> items = cart.getItems();
+    if (items.isEmpty) {
+      return;
+    }
+
+    try {
+      final int orderNumber = await SandwichDatabase.instance
+          .getNextOrderNumber();
+      final String summary = items
+          .map(
+            (CartItem item) => '${item.quantity} x ${item.sandwich.name}',
+          )
+          .join(', ');
+      final OrderRecord order = OrderRecord(
+        orderNumber: orderNumber,
+        summary: summary,
+        total: cart.getTotalDue(),
+        date: _formatOrderDate(DateTime.now()),
+      );
+      await SandwichDatabase.instance.insertOrder(order);
+
+      if (!mounted) {
+        return;
+      }
+      cart.clear();
+      await Navigator.pushNamed(context, '/orders');
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _confirmationMessage = 'Could not save your order: $error';
+      });
+    }
+  }
+
+  String _formatOrderDate(DateTime date) {
+    String twoDigits(int value) => value.toString().padLeft(2, '0');
+    return '${twoDigits(date.day)}/${twoDigits(date.month)}/${date.year} '
+        '${twoDigits(date.hour)}:${twoDigits(date.minute)}';
   }
 
   @override

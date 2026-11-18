@@ -34,7 +34,7 @@ class SandwichCard extends StatelessWidget {
                         return const SizedBox(
                           width: 80,
                           height: 80,
-                          child: Center(child: Text('Image Unavailable'),),
+                          child: Center(child: Text('Image Unavailable')),
                         );
                       },
                 ),
