@@ -4,7 +4,7 @@ import 'package:sandwich_shop/models/sandwich.dart';
 void main() {
   group('sandwich model tests', () {
     test('creates Sandwich instance with given properties', () {
-      const sandwich = Sandwich(
+      const Sandwich sandwich = Sandwich(
         id: 'vegetarian',
         name: 'vegetarian sub',
         description: 'has loads of vegetables and things',
@@ -20,7 +20,7 @@ void main() {
     test(
       'formattedPrice returns price prefixed with pound sign and two decimals',
       () {
-        const sandwich = Sandwich(
+        const Sandwich sandwich = Sandwich(
           id: 'footlong',
           name: 'footlong sub',
           description: 'a sub of size one foot',

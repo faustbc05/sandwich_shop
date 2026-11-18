@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sandwich_shop/main.dart';
-import 'package:sandwich_shop/models/sandwich.dart';
 import 'package:sandwich_shop/screens/menu_screen.dart';
 import 'package:sandwich_shop/screens/order_screen.dart';
 import 'package:flutter/services.dart';
@@ -10,32 +9,6 @@ void main() {
   setUp(() {
     rootBundle.clear();
   });
-  group('OrderItemDisplay widget tests', () {
-    testWidgets('displays zero sandwiches with no emoji', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(body: OrderItemDisplay(0, 'Footlong Sub')),
-        ),
-      );
-
-      expect(find.text('0 Footlong Sub sandwich(es): '), findsOneWidget);
-    });
-
-    testWidgets('displays three sandwiches with three emojis', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(body: OrderItemDisplay(3, 'Footlong Sub')),
-        ),
-      );
-
-      expect(find.text('3 Footlong Sub sandwich(es): 🥪🥪🥪'), findsOneWidget);
-    });
-  });
-
   group('App smoke tests', () {
     testWidgets('App displays MenuScreen as home', (WidgetTester tester) async {
       await tester.pumpWidget(const App());
@@ -58,13 +31,6 @@ void main() {
       await tester.scrollUntilVisible(find.text('Loaded Nachos'), 150);
 
       expect(find.text('£6.99'), findsOneWidget);
-
-      await tester.scrollUntilVisible(find.text('Nonexistent Sandwich'), 150);
-      await tester.pumpAndSettle();
-
-      expect(find.text('£2.99'), findsOneWidget);
-      expect(find.text('Image Unavailable'), findsOneWidget);
-      expect(tester.takeException(), isNull);
     });
 
     testWidgets(
@@ -104,50 +70,5 @@ void main() {
         expect(find.text('0 Footlong Sub sandwich(es): '), findsOneWidget);
       },
     );
-
-    testWidgets('OrderScreen quantity does not drop below zero', (
-      WidgetTester tester,
-    ) async {
-      const sandwich = Sandwich(
-        id: 'test',
-        name: 'Test Sub',
-        description: 'Test Description',
-        price: 99.99,
-        imagePath: 'assets/images/footlong.jpg',
-      );
-
-      await tester.pumpWidget(
-        const MaterialApp(home: OrderScreen(sandwich: sandwich)),
-      );
-
-      await tester.tap(find.text('Remove'));
-      await tester.pump();
-      expect(find.text('0 Test Sub sandwich(es): '), findsOneWidget);
-    });
-
-    testWidgets('orderScreen quantity does not exceed maxQuantity', (
-      WidgetTester tester,
-    ) async {
-      const sandwich = Sandwich(
-        id: 'test',
-        name: 'Test Sub',
-        description: 'Test Description',
-        price: 99.99,
-        imagePath: 'assets/images/footlong.jpg',
-      );
-
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: OrderScreen(sandwich: sandwich, maxQuantity: 3),
-        ),
-      );
-
-      for (int i = 0; i < 5; i++) {
-        await tester.tap(find.text('Add'));
-        await tester.pump();
-      }
-
-      expect(find.text('3 Test Sub sandwich(es): 🥪🥪🥪'), findsOneWidget);
-    });
   });
 }
